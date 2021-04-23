@@ -8,8 +8,8 @@ function Weather() {
   const [zip, setZip] = useState('')
   const [units, setUnits] = useState('imperial')
   const [weather, setWeather] = useState(null)
-  const [myLatitude, setMyLatitude] = useState(null)
-  const [myLongitude, setMyLongtitude] = useState(null)
+  // const [myLatitude, setMyLatitude] = useState(null)
+  // const [myLongitude, setMyLongtitude] = useState(null)
 
   const submitButtonDisabled = zip.length == null || zip.length < 5 || zip.length > 5
 
@@ -33,50 +33,42 @@ function Weather() {
       setWeather(json)
       console.log(json)
     } catch (err) {
-      console.log(err.message)
+      console.log(err)
     }
   }
 
-  function geoFindMe() {
-    const status = document.querySelector('#status');
-    const mapLink = document.querySelector('#map-link');
 
-    mapLink.href = '';
-    mapLink.textContent = '';
+  // Graphql query to to pass lat on lon
 
-    function onSuccess(position) {
-      const latitude = position.coords.latitude;
-      const longitude = position.coords.longitude;
+  // async function getWeatherByGeo() {
+  //   try {
+  //     const json = await client.query({
+  //       query: gql`
+  //       query {
+  //         getWeatherGeo(lat:${lat}, lon:${lat}) {
+  //           temperature
+  //           description
+  //           humidity
+  //         }
+  //       }
+  //     `
+  //     })
+  //     setWeather(json)
+  //     console.log(json)
+  //   } catch (err) {
+  //     console.log(err)
+  //   }
+  // }
 
-      mapLink.href = `https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`;
-      mapLink.textContent = `Latitude: ${latitude} °, Longitude: ${longitude} °`;
-    }
-
-    function onError(error) {
-      console.log(error)
-      status.textContent = 'Unable to retrieve your location';
-    }
-
-    if (!navigator.geolocation) {
-      console.log('NO LOCATING!!!!')
-      status.textContent = 'Geolocation is not supported by your browser ):'
-    } else {
-      navigator.geolocation.getCurrentPosition(() => console.log('e buh i ran'), e => console.log(`error ${e}`, { timeout: 0.1 }));
-      status.textContent = 'Locating...';
-    }
-
-    document.querySelector('#find-me').addEventListener('click', geoFindMe);
-  }
-
-  const LocationSection = () => <>
-    <button onClick={(e) => {
-      setMyLatitude(e.target.latitude)
-      setMyLongtitude(e.target.longitude)
-      geoFindMe()
-    }} id="find-me">Show my location</button>
-    <p id="status" alt="dddd"></p>
-    <a id="map-link" target="_blank" />
-  </>
+  // const LocationSection = () => <>
+  //   <button onClick={(e) => {
+  //     setMyLatitude(e.target.latitude)
+  //     setMyLongtitude(e.target.longitude)
+  //     geoFindMe()
+  //   }} id="find-me">Show my location</button>
+  //   <p id="status" alt="dddd"></p>
+  //   <a id="map-link" target="_blank" />
+  // </>
 
   return (
     <div className="Weather">
@@ -93,7 +85,7 @@ function Weather() {
       </form>
 
       <br />
-      <LocationSection />
+      {/* <LocationSection /> */}
       <br />
 
       {/* No Weather Yet */}
